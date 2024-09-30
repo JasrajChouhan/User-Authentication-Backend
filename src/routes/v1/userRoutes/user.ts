@@ -5,6 +5,6 @@ import allUserRoutes from './userRoutes'
 
 const router = express.Router()
 
-router.use('/user' , allUserRoutes)
+router.use('/users' , allUserRoutes)
 
 export default router ;
