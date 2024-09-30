@@ -1,0 +1,88 @@
+import UserRepository from '../repository/userRepository';
+import { changeEmailTypes, changePasswordDataTypes, changePasswordTypes, userTypes } from "../types/type";
+
+class UserService {
+    private userRepository: UserRepository;
+
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+
+    async create(data: userTypes) {
+        try {
+            const user = await this.userRepository.create(data);
+            console.log(user)
+            return user;
+        } catch (error) {
+            console.log(`Error at service level:`, error);
+            throw error;
+        }
+    }
+
+    async login(data: userTypes) {
+        try {
+            const {
+                loggedInUser,
+                accessToken,
+                refreshToken
+            } = await this.userRepository.login(data);
+            return {
+                loggedInUser,
+                accessToken,
+                refreshToken
+            }
+
+        } catch (error) {
+            console.log(`Error at service level:`, error);
+            throw error;
+        }
+    }
+
+    async logout(userId: string) {
+        try {
+            const user = await this.userRepository.logout(userId)
+            return user;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async refershAccessToken(incomingRefreshToken: string) {
+        try {
+            const { accessToken, refreshToken } = await this.userRepository.refershAccessToken(incomingRefreshToken)
+            return { accessToken, refreshToken }
+        } catch (error) {
+            throw error ;
+        }
+    }
+
+    async changePassword(data : changePasswordTypes) {
+        try {
+            await this.userRepository.changePassword(data)
+        } catch (error) {
+            throw error ;
+        }
+    }
+
+    async changeEmail(data : changeEmailTypes) {
+        try {
+            const user = await this.userRepository.changeEmail(data)
+            return user;
+        } catch (error) {
+            throw error ;
+        }
+    }
+
+    async deleteUserAccount (userId : string) {
+        try {
+            return await this.userRepository.deleteUserAccount(userId)
+        } catch (error) {
+            throw error ;
+        }
+    }
+}
+
+export default UserService;
+
+
+
