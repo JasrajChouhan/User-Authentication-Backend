@@ -71,7 +71,7 @@ async function logoutUser(
 
 
     try {
-        const userId = (req.user as IUser)._id;
+        const userId = (req.user as IUser)._id as string;
         const user = await userService.logout(userId)
         const cookieOptions = {
             httpOnly: true,
@@ -146,8 +146,7 @@ async function changePassword(
         confiromPassword
     } = req.body
 
-    const { _id: userId } = req.user as IUser;
-
+    const userId = (req.user as IUser)._id as string;
     try {
         await userService.changePassword({
             oldPassword,
@@ -220,7 +219,7 @@ async function deleteUserAccount(
     next: NextFunction
 ) {
     try {
-        const {_id : userId} = req.user as IUser;
+        const userId = (req.user as IUser)._id as string;
         const result = await userService.deleteUserAccount(userId)
         if(result) {
             res.status(200).json(

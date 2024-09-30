@@ -1,5 +1,5 @@
 import UserRepository from '../repository/userRepository';
-import { changeEmailTypes, changePasswordDataTypes, changePasswordTypes, userTypes } from "../types/type";
+import { changeEmailTypes, changePasswordTypes, userTypes } from "../types/type";
 
 class UserService {
     private userRepository: UserRepository;
@@ -52,32 +52,32 @@ class UserService {
             const { accessToken, refreshToken } = await this.userRepository.refershAccessToken(incomingRefreshToken)
             return { accessToken, refreshToken }
         } catch (error) {
-            throw error ;
+            throw error;
         }
     }
 
-    async changePassword(data : changePasswordTypes) {
+    async changePassword(data: changePasswordTypes) {
         try {
             await this.userRepository.changePassword(data)
         } catch (error) {
-            throw error ;
+            throw error;
         }
     }
 
-    async changeEmail(data : changeEmailTypes) {
+    async changeEmail(data: changeEmailTypes) {
         try {
             const user = await this.userRepository.changeEmail(data)
             return user;
         } catch (error) {
-            throw error ;
+            throw error;
         }
     }
 
-    async deleteUserAccount (userId : string) {
+    async deleteUserAccount(userId: string) {
         try {
             return await this.userRepository.deleteUserAccount(userId)
         } catch (error) {
-            throw error ;
+            throw error;
         }
     }
 }

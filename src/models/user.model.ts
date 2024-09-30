@@ -1,13 +1,12 @@
 import bcrypt, { genSalt } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import mongoose, { Document } from "mongoose";
+import mongoose from "mongoose";
 
 import serverConfigVariable from "../config/serverConfig";
 
 const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10);
 
 export interface IUser extends mongoose.Document {
-    _id : string ;
     email: string;
     password: string;
     userRole: "guest" | "user";
@@ -25,7 +24,7 @@ const UserSchema = new mongoose.Schema<IUser>({
     username: {
         type: String,
         required: true,
-        match: [/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/, 'Username must be valid'], // todo :: correct the regex match type for username
+        match: [/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/, 'Username must be valid'],
         unique: true,
         index: true,
         trim: true,
