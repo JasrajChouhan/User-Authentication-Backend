@@ -92,7 +92,7 @@ To set up the project locally, ensure that `git` is installed on your system and
 
 ```bash
 git init
-git clone <github_url_repo_link>
+git clone https://github.com/JasrajChouhan/User-Authentication-Backend.git
 ```
 
 ### 2. Install Dependencies
