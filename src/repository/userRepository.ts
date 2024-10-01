@@ -57,8 +57,8 @@ class UserRepository {
             // ----validation on every field
 
             if (
-                (!username && !email) ||
-                (!email && !password)
+                !((username && email) ||
+                (email && password))
             ) {
                 throw new ApiError(400, 'Please fill all require the fields');
             }
@@ -101,7 +101,7 @@ class UserRepository {
                 if (!isPasswordMached) {
                     throw new ApiError(400, `Wrong cradiencials.`)
                 }
-                return sameLoginFunclitly(user)
+                return await sameLoginFunclitly(user)
             }
             return null;
         } catch (error) {
