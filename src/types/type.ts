@@ -10,7 +10,7 @@ export interface changePasswordTypes {
   userId: string;
   oldPassword: string;
   newPassword: string;
-  confiromPassword: string;
+  confirmPassword: string;
 }
 
 export interface changeEmailTypes {

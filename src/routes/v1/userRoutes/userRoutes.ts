@@ -8,6 +8,7 @@ import {
   refreshAccessToken,
   registerUser,
   deleteUserAccount,
+  getCurrentLoggedInUser,
 } from '../../../controllers/userController';
 
 import verifyJWT from '../../../middlewares/authenticationMiddleware';
@@ -20,6 +21,7 @@ router.post('/logout', verifyJWT, logoutUser);
 router.post('/refreshAccessToken', refreshAccessToken);
 router.post('/change/email', verifyJWT, changeEmail);
 router.post('/change/password', verifyJWT, changePassword);
-router.delete('/delete', verifyJWT, deleteUserAccount);
+router.delete('/delete/user/account', verifyJWT, deleteUserAccount);
+router.get('/me', verifyJWT, getCurrentLoggedInUser);
 
 export default router;

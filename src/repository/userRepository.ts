@@ -146,6 +146,7 @@ class UserRepository {
         serverConfigVariable.ACCESS_TOKEN_SECRET
       ) as decodedDataTypes;
 
+
       const { _id } = decodedData;
 
       // find the user by _id
@@ -178,15 +179,19 @@ class UserRepository {
 
   // change or update user password
   async changePassword(data: changePasswordTypes) {
-    const { oldPassword, newPassword, confiromPassword, userId } = data;
+    const { oldPassword, newPassword, confirmPassword, userId } = data;
 
     try {
-      if ([oldPassword, newPassword, confiromPassword].some(value => value !== '')) {
+      if ([oldPassword, newPassword, confirmPassword].some(value => value === '')) {
         throw new ApiError(401, 'Please provide all require fields.');
       }
 
-      if (newPassword !== confiromPassword) {
-        throw new ApiError(401, 'Newer and older password must be same.');
+      if(oldPassword === newPassword) {
+        throw new ApiError(401, 'Newer and older password can not be same.');
+      }
+
+      if (newPassword !== confirmPassword) {
+        throw new ApiError(401, 'Please correctly confrim your password.');
       }
 
       // find the user by userId into db
@@ -231,7 +236,7 @@ class UserRepository {
 
       // any user belongs to oldEmail
 
-      const user = (await User.findOne({ oldEmail }).select('-password -refreshToken')) as IUser;
+      const user = (await User.findOne({ email : oldEmail }).select('-password -refreshToken')) as IUser;
 
       if (!user) {
         throw new ApiError(400, 'Please provide correct older email.');

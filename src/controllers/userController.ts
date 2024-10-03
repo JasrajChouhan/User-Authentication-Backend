@@ -86,7 +86,6 @@ async function logoutUser(req: Request, res: Response, next: NextFunction) {
 async function refreshAccessToken(req: Request, res: Response, next: NextFunction) {
   try {
     const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
-
     const { accessToken, refreshToken } = await userService.refershAccessToken(incomingRefreshToken);
 
     // set into the secure cookies
@@ -109,14 +108,14 @@ async function refreshAccessToken(req: Request, res: Response, next: NextFunctio
 //------ change or update user's password
 
 async function changePassword(req: Request, res: Response, next: NextFunction) {
-  const { oldPassword, newPassword, confiromPassword } = req.body;
+  const { oldPassword, newPassword, confirmPassword } = req.body;
 
   const userId = req.user?._id as string;
   try {
     await userService.changePassword({
       oldPassword,
       newPassword,
-      confiromPassword,
+      confirmPassword,
       userId,
     });
     return res.status(200).json(new ApiResponse(200, {}, 'Successfully update the password'));
@@ -180,4 +179,4 @@ async function deleteUserAccount(req: Request, res: Response, next: NextFunction
   }
 }
 
-export { changeEmail, changePassword, deleteUserAccount, loginUser, logoutUser, refreshAccessToken, registerUser };
+export { changeEmail, changePassword, deleteUserAccount, loginUser, logoutUser, refreshAccessToken, registerUser , getCurrentLoggedInUser };
