@@ -83,6 +83,13 @@ This project is a backend system that implements role-based user authentication 
 - **Method**: `DELETE`
 - **Endpoint**: `/api/v1/users/delete`
 
+
+
+### 5. Get all info of current logged-in user
+- **Method**: `GET`
+- **Endpoint**: `/api/v1/users/me`
+
+
 ---
 
 ## Setup and Installation
