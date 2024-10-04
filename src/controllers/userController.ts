@@ -179,4 +179,24 @@ async function deleteUserAccount(req: Request, res: Response, next: NextFunction
   }
 }
 
-export { changeEmail, changePassword, deleteUserAccount, loginUser, logoutUser, refreshAccessToken, registerUser , getCurrentLoggedInUser };
+async function getUserById(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { id: userId } = req.params;
+    const user = await userService.getUserById(userId);
+    return res.status(200).json(new ApiResponse(200, { user }, 'Successfully get the user details.'));
+  } catch (error: any) {
+    next(new ApiError(error.statusCode || 500, error.message || 'Error while fetching user deatls.'));
+  }
+}
+
+export {
+  changeEmail,
+  changePassword,
+  deleteUserAccount,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  registerUser,
+  getCurrentLoggedInUser,
+  getUserById,
+};

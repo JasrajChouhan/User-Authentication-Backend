@@ -9,6 +9,7 @@ import {
   registerUser,
   deleteUserAccount,
   getCurrentLoggedInUser,
+  getUserById,
 } from '../../../controllers/userController';
 
 import verifyJWT from '../../../middlewares/authenticationMiddleware';
@@ -23,5 +24,6 @@ router.post('/change/email', verifyJWT, changeEmail);
 router.post('/change/password', verifyJWT, changePassword);
 router.delete('/delete/user/account', verifyJWT, deleteUserAccount);
 router.get('/me', verifyJWT, getCurrentLoggedInUser);
+router.get('/:id', verifyJWT, getUserById);
 
 export default router;

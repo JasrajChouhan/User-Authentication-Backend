@@ -1,5 +1,6 @@
 import UserRepository from '../repository/userRepository';
 import { changeEmailTypes, changePasswordTypes, userTypes } from '../types/type';
+import ApiError from '../utils/ApiError';
 
 class UserService {
   private userRepository: UserRepository;
@@ -73,6 +74,16 @@ class UserService {
       return await this.userRepository.deleteUserAccount(userId);
     } catch (error) {
       throw error;
+    }
+  }
+
+  //----get user by id (by authorized user)
+
+  async getUserById(userId: string) {
+    try {
+      return await this.userRepository.getUserById(userId);
+    } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }
 }

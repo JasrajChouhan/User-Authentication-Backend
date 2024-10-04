@@ -146,7 +146,6 @@ class UserRepository {
         serverConfigVariable.ACCESS_TOKEN_SECRET
       ) as decodedDataTypes;
 
-
       const { _id } = decodedData;
 
       // find the user by _id
@@ -186,7 +185,7 @@ class UserRepository {
         throw new ApiError(401, 'Please provide all require fields.');
       }
 
-      if(oldPassword === newPassword) {
+      if (oldPassword === newPassword) {
         throw new ApiError(401, 'Newer and older password can not be same.');
       }
 
@@ -236,7 +235,7 @@ class UserRepository {
 
       // any user belongs to oldEmail
 
-      const user = (await User.findOne({ email : oldEmail }).select('-password -refreshToken')) as IUser;
+      const user = (await User.findOne({ email: oldEmail }).select('-password -refreshToken')) as IUser;
 
       if (!user) {
         throw new ApiError(400, 'Please provide correct older email.');
@@ -283,6 +282,25 @@ class UserRepository {
 
       // Throw a generic error wrapped as an ApiError
       throw new ApiError(500, 'Error while deleting user.');
+    }
+  }
+
+  // get user by id (By authorized user)
+
+  async getUserById(userId: string) {
+    try {
+      if (!userId) {
+        throw new ApiError(400, 'Please provide userId.');
+      }
+
+      const user = await User.findById(userId).select('-password -refreshToken');
+      if (!user) {
+        throw new ApiError(400, `User not found whith userId ${userId}`);
+      }
+
+      return user;
+    } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }
 }
