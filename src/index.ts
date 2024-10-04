@@ -1,4 +1,4 @@
-import express, { Request, request } from 'express';
+import express, { Request, Response } from 'express';
 
 import serverConfigVariable from './config/serverConfig';
 import dbConnection from './db/dbConnection';
@@ -26,6 +26,11 @@ applyMiddlewares(app);
 dbConnection();
 
 app.use('/api', userApiRoutes);
+
+//-----Not found page route
+app.use('*', (req: Request, res: Response) => {
+  res.send('<h1>Page 404, Not found');
+});
 
 //------Global error handler
 app.use(errorHandler);
