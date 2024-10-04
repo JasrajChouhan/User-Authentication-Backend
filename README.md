@@ -85,10 +85,15 @@ This project is a backend system that implements role-based user authentication 
 
 
 
-### 5. Get all info of current logged-in user
+### 8. Get all info of current logged-in user
 - **Method**: `GET`
 - **Endpoint**: `/api/v1/users/me`
 
+
+
+### 9. Get user details by userId
+- **Method**: `GET`
+- **Endpoint**: `/api/v1/user/:id`
 
 ---
 
