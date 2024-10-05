@@ -97,8 +97,8 @@ async function refreshAccessToken(req: Request, res: Response, next: NextFunctio
 
     res
       .status(200)
-      .cookie('accessToken', accessToken, cookieOptions)
-      .cookie('refreshToken', refreshToken, cookieOptions)
+      .cookie('accessToken', accessToken, {...cookieOptions , sameSite : 'strict'})
+      .cookie('refreshToken', refreshToken, {...cookieOptions , sameSite : 'strict'})
       .json(new ApiResponse(200, {}, 'Successfully generate new access token.'));
   } catch (error: any) {
     next(new ApiError(500, error?.message || 'Invalid refresht token.'));
