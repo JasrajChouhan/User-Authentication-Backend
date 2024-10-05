@@ -163,8 +163,8 @@ class UserRepository {
       const accessToken = await user.generateAccessToken();
       const refreshToken = await user.generateRefreshToken();
       return { accessToken, refreshToken };
-    } catch (error) {
-      console.error('Error at user repo refresh token level:', error);
+    } catch (error: any) {
+      console.error('Error at user repo refresh token level:', error.name);
 
       // If error is already an ApiError, rethrow it
       if (error instanceof ApiError) {
@@ -172,7 +172,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while refersh token.');
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while refersh token.');
     }
   }
 
