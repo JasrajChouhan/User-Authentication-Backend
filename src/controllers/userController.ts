@@ -34,7 +34,7 @@ async function loginUser(req: Request, res: Response, next: NextFunction): Promi
     const isProduction = serverConfigVariable.NODE_ENV === 'production' ? true : false;
     const accessTokenCookieOptions: ICookieOptions = {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: isProduction,
       expires: new Date(Date.now() + accessTokenExpire * 1000),
       maxAge: accessTokenExpire * 1000,
@@ -44,7 +44,7 @@ async function loginUser(req: Request, res: Response, next: NextFunction): Promi
     const refreshTokenCookieOptions: ICookieOptions = {
       httpOnly: true,
       secure: isProduction,
-      sameSite: 'lax',
+      sameSite: 'strict',
       expires: new Date(Date.now() + refreshTokenExpire * 1000),
       maxAge: refreshTokenExpire * 1000,
     };
