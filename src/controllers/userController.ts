@@ -73,8 +73,8 @@ async function logoutUser(req: Request, res: Response, next: NextFunction) {
 
     res
       .status(200)
-      .clearCookie('accessToken', { ...cookieOptions, sameSite: 'lax' })
-      .clearCookie('refreshToken', { ...cookieOptions, sameSite: 'lax' })
+      .clearCookie('accessToken', { ...cookieOptions, sameSite: 'strict' })
+      .clearCookie('refreshToken', { ...cookieOptions, sameSite: 'strict' })
       .json(new ApiResponse(200, { user }, 'You are successfully logout'));
   } catch (error: any) {
     next(new ApiError(500, error?.message || 'Error while logout user.'));
