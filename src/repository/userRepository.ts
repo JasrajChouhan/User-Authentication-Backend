@@ -143,7 +143,7 @@ class UserRepository {
       // verfiy by jwt
       const decodedData = jwt.verify(
         incomingRefreshToken,
-        serverConfigVariable.ACCESS_TOKEN_SECRET
+        serverConfigVariable.REFRESH_TOKEN_SECRET
       ) as decodedDataTypes;
 
       const { _id } = decodedData;
