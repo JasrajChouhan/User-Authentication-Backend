@@ -1,5 +1,5 @@
 import UserRepository from '../repository/userRepository';
-import { changeEmailTypes, changePasswordTypes, userTypes } from '../types/type';
+import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
 import ApiError from '../utils/ApiError';
 
 class UserService {
@@ -83,6 +83,17 @@ class UserService {
     try {
       return await this.userRepository.getUserById(userId);
     } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
+    }
+  }
+
+  //---- google oauth
+
+  async googleAuth(data : GoogleOAuthProps) {
+    try {
+      const result =  await this.userRepository.googleAuth(data)
+      return result ;
+    } catch (error : any) {
       throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }

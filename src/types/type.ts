@@ -19,7 +19,7 @@ export interface changeEmailTypes {
 }
 
 export interface LoginResponse  {
-  loggedInUser: IUser | null;
+  loggedInUser: IUser;
   accessToken: string;
   refreshToken: string;
 }
@@ -30,4 +30,10 @@ export interface ICookieOptions {
   sameSite: 'lax' | 'strict' | undefined | 'none';
   expires: Date;
   maxAge: number;
+}
+
+export interface GoogleOAuthProps {
+  username : string;
+  email : string;
+  avatar : string;
 }

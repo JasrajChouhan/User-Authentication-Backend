@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 
 import serverConfigVariable from '../config/serverConfig';
 import UserService from '../services/userService';
-import { ICookieOptions, LoginResponse } from '../types/type';
+import { LoginResponse, x } from '../types/type';
 import ApiError from '../utils/ApiError';
 import ApiResponse from '../utils/ApiResponse';
+import sendToken from '../utils/SendToken';
 
 const userService = new UserService();
 
@@ -24,35 +25,7 @@ async function registerUser(req: Request, res: Response, next: NextFunction): Pr
 async function loginUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   try {
     const { loggedInUser, accessToken, refreshToken } = (await userService.login(req.body)) as LoginResponse;
-
-    // Expirey of access-token and refresh-token
-    const accessTokenExpire = parseInt(serverConfigVariable.ACCESS_TOKEN_EXPIREY) * 1000;
-    const refreshTokenExpire = parseInt(serverConfigVariable.REFRESH_TOKEN_EXPIREY) * 1000;
-
-    //set the cookie options for access token
-
-    const isProduction = serverConfigVariable.NODE_ENV === 'production' ? true : false;
-    const accessTokenCookieOptions: ICookieOptions = {
-      httpOnly: true,
-      sameSite: 'strict',
-      secure: isProduction,
-      expires: new Date(Date.now() + accessTokenExpire * 1000),
-      maxAge: accessTokenExpire * 1000,
-    };
-
-    //set the cookie options for refresh token
-    const refreshTokenCookieOptions: ICookieOptions = {
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: 'strict',
-      expires: new Date(Date.now() + refreshTokenExpire * 1000),
-      maxAge: refreshTokenExpire * 1000,
-    };
-    res
-      .status(200)
-      .cookie('accessToken', accessToken, accessTokenCookieOptions)
-      .cookie('refreshToken', refreshToken, refreshTokenCookieOptions)
-      .json(new ApiResponse(200, { user: loggedInUser }));
+    sendToken(accessToken, refreshToken, loggedInUser, res)
   } catch (error: any) {
     console.log(error.message);
     next(new ApiError(500, error?.message));
@@ -97,8 +70,8 @@ async function refreshAccessToken(req: Request, res: Response, next: NextFunctio
 
     res
       .status(200)
-      .cookie('accessToken', accessToken, {...cookieOptions , sameSite : 'strict'})
-      .cookie('refreshToken', refreshToken, {...cookieOptions , sameSite : 'strict'})
+      .cookie('accessToken', accessToken, { ...cookieOptions, sameSite: 'strict' })
+      .cookie('refreshToken', refreshToken, { ...cookieOptions, sameSite: 'strict' })
       .json(new ApiResponse(200, {}, 'Successfully generate new access token.'));
   } catch (error: any) {
     next(new ApiError(500, error?.message || 'Invalid refresht token.'));
@@ -189,14 +162,33 @@ async function getUserById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+
+//---- google oauth 
+
+async function googleAuth(req: Request, res: Response, next: NextFunction) {
+  try {
+    const result = await userService.googleAuth(req.body)
+    console.log("Full Result:", result);
+
+    if (result && result.refreshToken && result.accessToken) {
+      const {
+        accessToken,
+        refreshToken , 
+        loggedInUser
+      } = result;
+      sendToken(accessToken, refreshToken, loggedInUser, res);
+    }
+  } catch (error: any) {
+    next(new ApiError(error.statusCode || 500, error.message ||'Token generation failed' || 'Error while fetching user deatls.'));
+  }
+}
 export {
   changeEmail,
   changePassword,
-  deleteUserAccount,
-  loginUser,
+  deleteUserAccount, getCurrentLoggedInUser,
+  getUserById, googleAuth, loginUser,
   logoutUser,
   refreshAccessToken,
-  registerUser,
-  getCurrentLoggedInUser,
-  getUserById,
+  registerUser
 };
+

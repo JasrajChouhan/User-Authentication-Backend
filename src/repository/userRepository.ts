@@ -1,10 +1,15 @@
+import bcrypt, { genSalt } from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import serverConfigVariable from '../config/serverConfig';
 import { decodedDataTypes } from '../middlewares/authenticationMiddleware';
 import User, { IUser } from '../models/user.model';
-import { changeEmailTypes, changePasswordTypes, userTypes } from '../types/type';
 import ApiError from '../utils/ApiError';
+
+import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
+import generateValidUsername from '../utils/generateValidUsername';
+
+const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10)
 
 class UserRepository {
   async create(data: userTypes) {
@@ -303,6 +308,64 @@ class UserRepository {
       throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }
+
+  // oauth 
+  async googleAuth(data: GoogleOAuthProps) {
+    try {
+      const { username, email, avatar } = data;
+
+      if (!username || !email) {
+        throw new ApiError(400, 'Please provide all required fields.');
+      }
+
+      // Check if the user exists by username or email
+      const user = await User.findOne({
+        $or: [{ username }, { email }],
+      }).select("-password -refreshToken");
+
+      if (user) {
+        // User exists, generate tokens
+        const accessToken = await user.generateAccessToken();
+        const refreshToken = await user.generateRefreshToken();
+        return { loggedInUser: user, accessToken, refreshToken };
+      } else {
+
+        // Generate unique username
+        let uniqueUsername = generateValidUsername(username);
+
+        while (await User.findOne({ username: uniqueUsername })) {
+          uniqueUsername = generateValidUsername(username);
+        }
+
+        // Generate a random password and hash it
+        const generatedPassword = Math.random().toString(36).slice(-9) + Math.random().toString(36).slice(-9);
+        const salt = await genSalt(SALT_WORK_FECTOR);
+        const hashedPassword = await bcrypt.hash(generatedPassword, salt);
+
+        // Create new user
+        const newUser = await User.create({
+          username: uniqueUsername,
+          password: hashedPassword.substring(0, 18),
+          email: email,
+          avatar: avatar,
+        });
+
+        const createdUser = await User.findById(newUser._id).select('-password -refreshToken');
+        if (!createdUser) {
+          throw new ApiError(500, 'User registration failed.');
+        }
+
+        // Generate tokens for the new user
+        const accessToken = await createdUser.generateAccessToken();
+        const refreshToken = await createdUser.generateRefreshToken();
+
+        return { loggedInUser: createdUser, accessToken, refreshToken };
+      }
+    } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error during Google auth process.');
+    }
+  }
+
 }
 
 export default UserRepository;

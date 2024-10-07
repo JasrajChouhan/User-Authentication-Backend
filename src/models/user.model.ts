@@ -11,6 +11,7 @@ export interface IUser extends mongoose.Document {
   password: string;
   userRole: 'guest' | 'user';
   username: string;
+  avatar: string;
   refreshToken: string | undefined;
   comparePassword(candidatePassword: string): Promise<boolean>;
   generateAccessToken: () => Promise<string>;
@@ -59,6 +60,10 @@ const UserSchema = new mongoose.Schema<IUser>(
     refreshToken: {
       type: String,
     },
+    avatar : {
+      type : String,
+      default : "" // todo : add a default string
+    }
   },
   { timestamps: true }
 );
