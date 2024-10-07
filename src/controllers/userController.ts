@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import serverConfigVariable from '../config/serverConfig';
 import UserService from '../services/userService';
-import { LoginResponse, x } from '../types/type';
+import { LoginResponse} from '../types/type';
 import ApiError from '../utils/ApiError';
 import ApiResponse from '../utils/ApiResponse';
 import sendToken from '../utils/SendToken';
