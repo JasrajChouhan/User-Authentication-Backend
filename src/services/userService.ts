@@ -89,11 +89,11 @@ class UserService {
 
   //---- google oauth
 
-  async googleAuth(data : GoogleOAuthProps) {
+  async googleAuth(data: GoogleOAuthProps) {
     try {
-      const result =  await this.userRepository.googleAuth(data)
-      return result ;
-    } catch (error : any) {
+      const result = await this.userRepository.googleAuth(data);
+      return result;
+    } catch (error: any) {
       throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }

@@ -1,18 +1,12 @@
-import { Response } from "express";
-import serverConfigVariable from "../config/serverConfig";
-import { IUser } from "../models/user.model";
-import { ICookieOptions } from "../types/type";
-import ApiResponse from "./ApiResponse";
-import ApiError from "./ApiError";
+import { Response } from 'express';
+import serverConfigVariable from '../config/serverConfig';
+import { IUser } from '../models/user.model';
+import { ICookieOptions } from '../types/type';
+import ApiResponse from './ApiResponse';
+import ApiError from './ApiError';
 
-async function sendToken(
-  accessToken: string,
-  refreshToken: string,
-  loggedInUser: IUser,
-  res : Response
-) {
+async function sendToken(accessToken: string, refreshToken: string, loggedInUser: IUser, res: Response) {
   try {
-
     // Expirey of access-token and refresh-token
     const accessTokenExpire = parseInt(serverConfigVariable.ACCESS_TOKEN_EXPIREY) * 1000;
     const refreshTokenExpire = parseInt(serverConfigVariable.REFRESH_TOKEN_EXPIREY) * 1000;
@@ -39,11 +33,10 @@ async function sendToken(
       .status(200)
       .cookie('accessToken', accessToken, accessTokenCookieOptions)
       .cookie('refreshToken', refreshToken, refreshTokenCookieOptions)
-      .json(new ApiResponse(200, { user: loggedInUser}));
-  } catch (error : any) {
-    throw new ApiError(error.statusCode || 500 , error.message || 'Something went wrong during sending of token.')
+      .json(new ApiResponse(200, { user: loggedInUser }));
+  } catch (error: any) {
+    throw new ApiError(error.statusCode || 500, error.message || 'Something went wrong during sending of token.');
   }
 }
-
 
 export default sendToken;

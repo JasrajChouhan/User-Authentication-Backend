@@ -18,7 +18,7 @@ export interface changeEmailTypes {
   newEmail: string;
 }
 
-export interface LoginResponse  {
+export interface LoginResponse {
   loggedInUser: IUser;
   accessToken: string;
   refreshToken: string;
@@ -33,7 +33,7 @@ export interface ICookieOptions {
 }
 
 export interface GoogleOAuthProps {
-  username : string;
-  email : string;
-  avatar : string;
+  username: string;
+  email: string;
+  avatar: string;
 }

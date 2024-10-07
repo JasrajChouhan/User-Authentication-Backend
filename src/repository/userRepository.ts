@@ -9,7 +9,7 @@ import ApiError from '../utils/ApiError';
 import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
 import generateValidUsername from '../utils/generateValidUsername';
 
-const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10)
+const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10);
 
 class UserRepository {
   async create(data: userTypes) {
@@ -309,7 +309,7 @@ class UserRepository {
     }
   }
 
-  // oauth 
+  // oauth
   async googleAuth(data: GoogleOAuthProps) {
     try {
       const { username, email, avatar } = data;
@@ -321,7 +321,7 @@ class UserRepository {
       // Check if the user exists by username or email
       const user = await User.findOne({
         $or: [{ username }, { email }],
-      }).select("-password -refreshToken");
+      }).select('-password -refreshToken');
 
       if (user) {
         // User exists, generate tokens
@@ -329,7 +329,6 @@ class UserRepository {
         const refreshToken = await user.generateRefreshToken();
         return { loggedInUser: user, accessToken, refreshToken };
       } else {
-
         // Generate unique username
         let uniqueUsername = generateValidUsername(username);
 
@@ -365,7 +364,6 @@ class UserRepository {
       throw new ApiError(error.statusCode || 500, error.message || 'Error during Google auth process.');
     }
   }
-
 }
 
 export default UserRepository;

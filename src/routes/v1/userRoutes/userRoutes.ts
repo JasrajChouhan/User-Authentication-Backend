@@ -26,6 +26,6 @@ router.post('/change/password', verifyJWT, changePassword);
 router.delete('/delete/user/account', verifyJWT, deleteUserAccount);
 router.get('/me', verifyJWT, getCurrentLoggedInUser);
 router.get('/:id', verifyJWT, getUserById);
-router.post('/google' , googleAuth)
+router.post('/google', googleAuth);
 
 export default router;

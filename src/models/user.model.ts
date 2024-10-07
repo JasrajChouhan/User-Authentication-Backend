@@ -60,10 +60,10 @@ const UserSchema = new mongoose.Schema<IUser>(
     refreshToken: {
       type: String,
     },
-    avatar : {
-      type : String,
-      default : "" // todo : add a default string
-    }
+    avatar: {
+      type: String,
+      default: '', // todo : add a default string
+    },
   },
   { timestamps: true }
 );
@@ -101,7 +101,7 @@ UserSchema.methods = {
       {
         _id: this._id,
         username: this.username,
-        email: this.email
+        email: this.email,
       },
       serverConfigVariable.ACCESS_TOKEN_SECRET,
       {
@@ -115,7 +115,7 @@ UserSchema.methods = {
       {
         _id: this._id,
         username: this.id,
-        email: this.email
+        email: this.email,
       },
       serverConfigVariable.REFRESH_TOKEN_SECRET,
       {

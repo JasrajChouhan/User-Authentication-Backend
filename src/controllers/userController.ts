@@ -25,7 +25,7 @@ async function registerUser(req: Request, res: Response, next: NextFunction): Pr
 async function loginUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
   try {
     const { loggedInUser, accessToken, refreshToken } = (await userService.login(req.body)) as LoginResponse;
-    sendToken(accessToken, refreshToken, loggedInUser, res)
+    sendToken(accessToken, refreshToken, loggedInUser, res);
   } catch (error: any) {
     console.log(error.message);
     next(new ApiError(500, error?.message));
@@ -162,33 +162,35 @@ async function getUserById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
-
-//---- google oauth 
+//---- google oauth
 
 async function googleAuth(req: Request, res: Response, next: NextFunction) {
   try {
-    const result = await userService.googleAuth(req.body)
-    console.log("Full Result:", result);
+    const result = await userService.googleAuth(req.body);
+    console.log('Full Result:', result);
 
     if (result && result.refreshToken && result.accessToken) {
-      const {
-        accessToken,
-        refreshToken , 
-        loggedInUser
-      } = result;
+      const { accessToken, refreshToken, loggedInUser } = result;
       sendToken(accessToken, refreshToken, loggedInUser, res);
     }
   } catch (error: any) {
-    next(new ApiError(error.statusCode || 500, error.message ||'Token generation failed' || 'Error while fetching user deatls.'));
+    next(
+      new ApiError(
+        error.statusCode || 500,
+        error.message || 'Token generation failed' || 'Error while fetching user deatls.'
+      )
+    );
   }
 }
 export {
   changeEmail,
   changePassword,
-  deleteUserAccount, getCurrentLoggedInUser,
-  getUserById, googleAuth, loginUser,
+  deleteUserAccount,
+  getCurrentLoggedInUser,
+  getUserById,
+  googleAuth,
+  loginUser,
   logoutUser,
   refreshAccessToken,
-  registerUser
+  registerUser,
 };
-
