@@ -364,6 +364,35 @@ class UserRepository {
       throw new ApiError(error.statusCode || 500, error.message || 'Error during Google auth process.');
     }
   }
+
+  // username exist or not in db
+
+  async isUsernameExist(username: string) {
+    try {
+      if (!username) {
+        throw new ApiError(400, 'Please provide a username.');
+      }
+
+      // check username is follow our regex pattern or not
+
+      const usernameRegExp = /^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/;
+      const isMatch = usernameRegExp.test(username);
+
+      if (!isMatch) {
+        throw new ApiError(400, 'Give a valid username');
+      }
+
+      const user = await User.findOne({ username }).select('-password -refreshToken');
+
+      if (user) {
+        throw new ApiError(400, `${username} is not available`);
+      }
+      return true;
+    } catch (error: any) {
+      console.log(error);
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while checking existance of username.');
+    }
+  }
 }
 
 export default UserRepository;

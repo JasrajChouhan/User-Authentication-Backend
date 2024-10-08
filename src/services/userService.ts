@@ -97,6 +97,16 @@ class UserService {
       throw new ApiError(error.statusCode || 500, error.message || 'Error while fetching user details.');
     }
   }
+
+  //---- check username exist or not in db
+
+  async isUsernameExist(username: string) {
+    try {
+      return await this.userRepository.isUsernameExist(username);
+    } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while checking existance of username.');
+    }
+  }
 }
 
 export default UserService;

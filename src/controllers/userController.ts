@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import serverConfigVariable from '../config/serverConfig';
 import UserService from '../services/userService';
-import { LoginResponse} from '../types/type';
+import { LoginResponse } from '../types/type';
 import ApiError from '../utils/ApiError';
 import ApiResponse from '../utils/ApiResponse';
 import sendToken from '../utils/SendToken';
@@ -182,6 +182,28 @@ async function googleAuth(req: Request, res: Response, next: NextFunction) {
     );
   }
 }
+
+//--- check username exist or not in db
+
+async function isUsernameExist(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { username } = req?.body;
+
+    const result = await userService.isUsernameExist(username);
+
+    res
+      .status(result ? 200 : 401)
+      .json(
+        new ApiResponse(result ? 200 : 401, {}, result ? `${username} is available` : `${username} is not available`)
+      );
+  } catch (error: any) {
+    res
+      .status(error.statusCode || 500)
+      .json(
+        new ApiResponse(error.statusCode || 500, {}, error.message || 'Error while checking existence of username')
+      );
+  }
+}
 export {
   changeEmail,
   changePassword,
@@ -193,4 +215,5 @@ export {
   logoutUser,
   refreshAccessToken,
   registerUser,
+  isUsernameExist,
 };

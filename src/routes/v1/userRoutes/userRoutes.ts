@@ -11,6 +11,7 @@ import {
   getCurrentLoggedInUser,
   getUserById,
   googleAuth,
+  isUsernameExist,
 } from '../../../controllers/userController';
 
 import verifyJWT from '../../../middlewares/authenticationMiddleware';
@@ -27,5 +28,6 @@ router.delete('/delete/user/account', verifyJWT, deleteUserAccount);
 router.get('/me', verifyJWT, getCurrentLoggedInUser);
 router.get('/:id', verifyJWT, getUserById);
 router.post('/google', googleAuth);
+router.post('/username/exist', isUsernameExist);
 
 export default router;
