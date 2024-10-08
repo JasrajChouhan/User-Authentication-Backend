@@ -17,7 +17,7 @@ declare global {
 }
 
 const app = express();
-const port = serverConfigVariable.PORT || 3000;
+const port = serverConfigVariable.PORT || 4000;
 
 //----------All middleware of app
 applyMiddlewares(app);

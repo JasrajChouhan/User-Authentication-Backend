@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import serverConfigVariable from '../config/serverConfig';
 
-const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10);
+const SALT_WORK_FACTOR = Number(serverConfigVariable.SALT_WORK_FACTOR || 10);
 
 export interface IUser extends mongoose.Document {
   email: string;
@@ -76,7 +76,7 @@ UserSchema.pre('save', async function (next) {
   if (!user.isModified('password')) return next();
 
   try {
-    const salt = await genSalt(SALT_WORK_FECTOR);
+    const salt = await genSalt(SALT_WORK_FACTOR);
     const hashedPassword = await bcrypt.hash(user.password, salt);
     user.password = hashedPassword;
     next();

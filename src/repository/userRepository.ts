@@ -9,7 +9,7 @@ import ApiError from '../utils/ApiError';
 import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
 import generateValidUsername from '../utils/generateValidUsername';
 
-const SALT_WORK_FECTOR = Number(serverConfigVariable.SALT_WORK_FECTOR || 10);
+const SALT_WORK_FACTOR = Number(serverConfigVariable.SALT_WORK_FACTOR || 10);
 
 class UserRepository {
   async create(data: userTypes) {
@@ -338,7 +338,7 @@ class UserRepository {
 
         // Generate a random password and hash it
         const generatedPassword = Math.random().toString(36).slice(-9) + Math.random().toString(36).slice(-9);
-        const salt = await genSalt(SALT_WORK_FECTOR);
+        const salt = await genSalt(SALT_WORK_FACTOR);
         const hashedPassword = await bcrypt.hash(generatedPassword, salt);
 
         // Create new user
