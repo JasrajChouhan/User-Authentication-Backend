@@ -40,7 +40,7 @@ class UserRepository {
       }
 
       return createdUser;
-    } catch (error) {
+    } catch (error: any) {
       // Log the error and rethrow a handled ApiError
       console.error('Error at user repo create level:', error);
 
@@ -50,7 +50,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while creating user.');
+      throw new ApiError(error.statusCode ||500, error?.message || 'Error while creating user.');
     }
   }
 
@@ -118,7 +118,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while login user.');
+      throw new ApiError(error.statusCode ||500, error?.message || 'Error while login user.');
     }
   }
 
@@ -213,7 +213,7 @@ class UserRepository {
       user?.save({
         validateBeforeSave: false,
       });
-    } catch (error) {
+    } catch (error : any) {
       console.error('Error at user repo change password level:', error);
 
       // If error is already an ApiError, rethrow it
@@ -221,7 +221,7 @@ class UserRepository {
         throw error;
       }
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while change of password.');
+      throw new ApiError(error.statusCode ||500, error?.message || 'Error while change of password.');
     }
   }
 
@@ -252,7 +252,7 @@ class UserRepository {
       });
 
       return user;
-    } catch (error) {
+    } catch (error : any) {
       console.error('Error at user repo change email level:', error);
 
       // If error is already an ApiError, rethrow it
@@ -260,7 +260,7 @@ class UserRepository {
         throw error;
       }
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while change of email.');
+      throw new ApiError(error.statusCode ||500, error?.message || 'Error while change of email.');
     }
   }
 
@@ -276,7 +276,7 @@ class UserRepository {
       }
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       // Log the error and rethrow as ApiError
       console.error('Error at user repo destroy level:', error);
 
@@ -286,7 +286,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(500, 'Error while deleting user.');
+      throw new ApiError(error.statusCode ||500, error?.message || 'Error while deleting user.');
     }
   }
 
