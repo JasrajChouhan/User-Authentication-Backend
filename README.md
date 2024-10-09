@@ -93,8 +93,32 @@ This project is a backend system that implements role-based user authentication 
 
 ### 9. Get user details by userId
 - **Method**: `GET`
-- **Endpoint**: `/api/v1/user/:id`
+- **Endpoint**: `/api/v1/users/:id`
 
+
+### 10. User login by OAuth
+- **Method**: `POST`
+- **Endpoint**: `api/v1/users/google
+
+- **Request Body**:
+  ```json
+  {
+      "email": "<your_old_email>",
+      "uername": "<your_username>"
+  }
+  ```
+
+
+### 11. Provide or check existance of an username
+- **Method**: `Post`
+- **Endpoint**: `api/v1/users/username/exist`
+
+- **Request Body**:
+  ```json
+    {
+      "username" : "<your_username>"
+    }
+  ```
 ---
 
 ## Setup and Installation
