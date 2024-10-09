@@ -50,7 +50,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(error.statusCode ||500, error?.message || 'Error while creating user.');
+      throw new ApiError(error.statusCode || 500, error?.message || 'Error while creating user.');
     }
   }
 
@@ -118,7 +118,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(error.statusCode ||500, error?.message || 'Error while login user.');
+      throw new ApiError(error.statusCode || 500, error?.message || 'Error while login user.');
     }
   }
 
@@ -184,9 +184,13 @@ class UserRepository {
   // change or update user password
   async changePassword(data: changePasswordTypes) {
     const { oldPassword, newPassword, confirmPassword, userId } = data;
-    console.log(oldPassword, newPassword, confirmPassword)
+    console.log(oldPassword, newPassword, confirmPassword);
     try {
-      if ([oldPassword, newPassword, confirmPassword].some(value => value?.trim() === '' || value === undefined || value === null)) {
+      if (
+        [oldPassword, newPassword, confirmPassword].some(
+          value => value?.trim() === '' || value === undefined || value === null
+        )
+      ) {
         throw new ApiError(401, 'Please provide all require fields.');
       }
 
@@ -213,7 +217,7 @@ class UserRepository {
       user?.save({
         validateBeforeSave: false,
       });
-    } catch (error : any) {
+    } catch (error: any) {
       console.error('Error at user repo change password level:', error);
 
       // If error is already an ApiError, rethrow it
@@ -221,7 +225,7 @@ class UserRepository {
         throw error;
       }
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(error.statusCode ||500, error?.message || 'Error while change of password.');
+      throw new ApiError(error.statusCode || 500, error?.message || 'Error while change of password.');
     }
   }
 
@@ -252,7 +256,7 @@ class UserRepository {
       });
 
       return user;
-    } catch (error : any) {
+    } catch (error: any) {
       console.error('Error at user repo change email level:', error);
 
       // If error is already an ApiError, rethrow it
@@ -260,7 +264,7 @@ class UserRepository {
         throw error;
       }
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(error.statusCode ||500, error?.message || 'Error while change of email.');
+      throw new ApiError(error.statusCode || 500, error?.message || 'Error while change of email.');
     }
   }
 
@@ -286,7 +290,7 @@ class UserRepository {
       }
 
       // Throw a generic error wrapped as an ApiError
-      throw new ApiError(error.statusCode ||500, error?.message || 'Error while deleting user.');
+      throw new ApiError(error.statusCode || 500, error?.message || 'Error while deleting user.');
     }
   }
 
