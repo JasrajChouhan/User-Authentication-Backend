@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import swaggerJsDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import serverConfigVariable from './config/serverConfig';
 import dbConnection from './db/dbConnection';
@@ -18,6 +20,8 @@ declare global {
 
 const app = express();
 const port = serverConfigVariable.PORT || 4000;
+
+//----------Swagger-Ui section
 
 //----------All middleware of app
 applyMiddlewares(app);
