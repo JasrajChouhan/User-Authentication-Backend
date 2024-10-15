@@ -1,0 +1,319 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "User Auth Crud Api",
+    "description": "The API for the User authentication project",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    },
+    {
+      "url": "http://localhost:4000/api/v1"
+    },
+    {
+      "url": "https://virtserver.swaggerhub.com/JasrajChouhan/User-Auth/1.0.0"
+    }
+  ],
+  "paths": {
+    "/users/signin": {
+      "post": {
+        "summary": "Login a user",
+        "description": "User can login using either username and email or email and password.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid login credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "Logout a user",
+        "description": "User logout endpoint",
+        "responses": {
+          "200": {
+            "description": "Successfully logged out"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "summary": "Register a new user",
+        "description": "Endpoint for registering a new user with a unique username, email, and password.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignupResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data or user already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SignupRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Unique username for the user",
+            "example": "123456"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address of the user",
+            "example": "jasrajc954@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "Secure password for the user",
+            "example": "12!@AaB#$"
+          }
+        },
+        "required": ["username", "email", "password"]
+      },
+      "SignupResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "example": 201
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Unique identifier of the user",
+                    "example": "6703427cf2c075b8bb88fb7f"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of the user",
+                    "example": "123456"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email of the user",
+                    "example": "jasrajc954@gmail.com"
+                  },
+                  "userRole": {
+                    "type": "string",
+                    "description": "Role of the user",
+                    "example": "user"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "description": "User avatar image URL",
+                    "example": ""
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Account creation date",
+                    "example": "2024-10-07T02:07:56.779Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Account last update date",
+                    "example": "2024-10-09T04:20:31.945Z"
+                  },
+                  "__v": {
+                    "type": "integer",
+                    "example": 0
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "User registered successfully"
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Invalid request data"
+          },
+          "code": {
+            "type": "integer",
+            "example": 400
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "Username of the user"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email of the user"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "Password of the user"
+          }
+        },
+        "required": ["email"]
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "example": 200
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "user": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Unique identifier of the user",
+                    "example": "6703427cf2c075b8bb88fb7f"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username of the user",
+                    "example": "123456"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email of the user",
+                    "example": "jasrajc954@gmail.com"
+                  },
+                  "userRole": {
+                    "type": "string",
+                    "description": "Role of the user",
+                    "example": "user"
+                  },
+                  "avatar": {
+                    "type": "string",
+                    "description": "User avatar image URL",
+                    "example": ""
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Account creation date",
+                    "example": "2024-10-07T02:07:56.779Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Account last update date",
+                    "example": "2024-10-09T04:20:31.945Z"
+                  },
+                  "__v": {
+                    "type": "integer",
+                    "example": 0
+                  }
+                }
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Success"
+          },
+          "success": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      }
+    }
+  }
+}

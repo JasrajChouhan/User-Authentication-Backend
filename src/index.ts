@@ -1,5 +1,4 @@
 import express, { Request, Response } from 'express';
-import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
 import serverConfigVariable from './config/serverConfig';
@@ -9,6 +8,8 @@ import errorHandler from './middlewares/errorHandler';
 import userApiRoutes from './routes/v1/userRoutes/ApiVersionRoutes';
 
 import { IUser } from './models/user.model';
+
+import swaggerDocument from './swagger/swagger.json';
 
 declare global {
   namespace Express {
@@ -22,6 +23,7 @@ const app = express();
 const port = serverConfigVariable.PORT || 4000;
 
 //----------Swagger-Ui section
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //----------All middleware of app
 applyMiddlewares(app);
