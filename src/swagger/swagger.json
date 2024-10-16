@@ -117,7 +117,7 @@
         }
       }
     },
-    "/users/changeEmail": {
+    "/users/change/email": {
       "post": {
         "summary": "Update or change email of user",
         "description": "Provide old and new email of user and update the user's email",
@@ -147,7 +147,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -157,7 +157,55 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/change/password": {
+      "post": {
+        "summary": "Update or change the user's password",
+        "description": "Provide old password, new password, and confirm password to update the user's password",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated the user's password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangePasswordResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, e.g., passwords do not match or the new password doesn't meet criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized, old password is incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
                 }
               }
             }
@@ -388,6 +436,36 @@
         },
         "example": {
           "message": "Email successfully updated"
+        }
+      },
+      "ChangePasswordRequest": {
+        "type": "object",
+        "properties": {
+          "oldPassword": {
+            "type": "string",
+            "description": "The user's current password"
+          },
+          "newPassword": {
+            "type": "string",
+            "description": "The new password for the user"
+          },
+          "confirmPassword": {
+            "type": "string",
+            "description": "Confirmation of the new password"
+          }
+        },
+        "required": ["oldPassword", "newPassword", "confirmPassword"]
+      },
+      "ChangePasswordResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message indicating the result of the password change"
+          }
+        },
+        "example": {
+          "message": "Password successfully updated"
         }
       }
     }
