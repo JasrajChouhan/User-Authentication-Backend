@@ -16,6 +16,9 @@ This project is a backend system that implements role-based user authentication 
 
 ## API Documentation
 
+### SWAGGER-OPENAPI-DOC
+- **Visit**: `/api/docs`
+
 ### 1. Register/Signup a User
 - **Method**: `POST`
 - **Endpoint**: `/api/v1/users/signup`
