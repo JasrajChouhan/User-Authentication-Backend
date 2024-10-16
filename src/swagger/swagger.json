@@ -545,6 +545,224 @@
         },
         "tags": ["User"]
       }
+    },
+    "/users/username/exist": {
+      "post": {
+        "summary": "Check if a username exists",
+        "description": "Verify whether the provided username is valid and available or already taken.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "The username to be checked for availability",
+                    "example": "123456"
+                  }
+                },
+                "required": ["username"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Username is available",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "12345645 is available"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username or username is already taken",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    },
+                    "message": {
+                      "type": "string",
+                      "oneOf": [
+                        {
+                          "example": "Give a valid username"
+                        },
+                        {
+                          "example": "123456 is not available"
+                        }
+                      ]
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["User"]
+      }
+    },
+    "/users/google": {
+      "post": {
+        "summary": "Google OAuth Login",
+        "description": "Log in or register a user using Google OAuth. If the user is logging in for the first time, a new account is created with the provided username and email.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "The username retrieved from Google OAuth",
+                    "example": "John Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "description": "The email retrieved from Google OAuth",
+                    "example": "user1@gmail.com"
+                  }
+                },
+                "required": ["username", "email"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully logged in or registered user via Google OAuth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "670529b1adbd8aeaaf757473"
+                            },
+                            "username": {
+                              "type": "string",
+                              "example": "johndoeszv38tuxkf.j93ymcvyndcb"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "user1@gmail.com"
+                            },
+                            "userRole": {
+                              "type": "string",
+                              "example": "user"
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "example": ""
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-08T12:46:41.455Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-16T19:19:04.303Z"
+                            },
+                            "__v": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields or invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Please provide all required fields."
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Authentication"]
+      }
     }
   },
   "components": {
