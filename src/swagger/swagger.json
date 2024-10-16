@@ -212,6 +212,112 @@
           }
         }
       }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "Get current user details",
+        "description": "Retrieve the details of the currently authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "string",
+                              "example": "6703427cf2c075b8bb88fb7f"
+                            },
+                            "username": {
+                              "type": "string",
+                              "example": "123456"
+                            },
+                            "email": {
+                              "type": "string",
+                              "example": "jasrajc954@gmail.com"
+                            },
+                            "userRole": {
+                              "type": "string",
+                              "example": "user"
+                            },
+                            "avatar": {
+                              "type": "string",
+                              "example": ""
+                            },
+                            "createdAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-07T02:07:56.779Z"
+                            },
+                            "updatedAt": {
+                              "type": "string",
+                              "format": "date-time",
+                              "example": "2024-10-16T19:54:40.840Z"
+                            },
+                            "__v": {
+                              "type": "integer",
+                              "example": 0
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "tags": ["User"]
+      }
     }
   },
   "components": {
