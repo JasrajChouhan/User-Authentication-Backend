@@ -116,6 +116,54 @@
           }
         }
       }
+    },
+    "/users/changeEmail": {
+      "post": {
+        "summary": "Update or change email of user",
+        "description": "Provide old and new email of user and update the user's email",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully updated user's email",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChangeEmailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -312,6 +360,34 @@
             "type": "boolean",
             "example": true
           }
+        }
+      },
+      "ChangeEmailRequest": {
+        "type": "object",
+        "properties": {
+          "oldEmail": {
+            "type": "string",
+            "format": "email",
+            "description": "The user's current email"
+          },
+          "newEmail": {
+            "type": "string",
+            "format": "email",
+            "description": "The new email to update for the user"
+          }
+        },
+        "required": ["oldEmail", "newEmail"]
+      },
+      "ChangeEmailResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Response message indicating the result"
+          }
+        },
+        "example": {
+          "message": "Email successfully updated"
         }
       }
     }
