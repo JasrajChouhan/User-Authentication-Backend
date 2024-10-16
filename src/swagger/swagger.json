@@ -318,6 +318,88 @@
         ],
         "tags": ["User"]
       }
+    },
+    "/users/refresh/access-token": {
+      "post": {
+        "summary": "Generate a new access token using the refresh token",
+        "description": "Request a new access token by providing a valid refresh token. This endpoint checks if the refresh token is still valid and issues a new access token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "refreshToken": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzAyOTc2YTJmYTEzMTcwMWI4ZWE2ZjQiLCJ1c2VybmFtZSI6IjY3MDI5NzZhMmZhMTMxNzAxYjhlYTZmNCIsImVtYWlsIjoiamFzcmFqYzk1NEBnbWFpbC5jb20iLCJpYXQiOjE3MjgyMjMwOTIsImV4cCI6MTcyOTA4NzA5Mn0.qORfPtjdSU7gBSSR-PctXPuI5Frh02-_c4QoIlWUwuw"
+                  }
+                },
+                "required": ["refreshToken"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated new access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully generate new access token."
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token expired or already used",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 401
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Token expired or used."
+                    },
+                    "success": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Authentication"]
+      }
     }
   },
   "components": {
