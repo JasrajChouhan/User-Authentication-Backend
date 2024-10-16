@@ -62,7 +62,8 @@
               }
             }
           }
-        }
+        },
+        "tags": ["Authentication"]
       }
     },
     "/users/logout": {
@@ -76,7 +77,8 @@
           "401": {
             "description": "Unauthorized"
           }
-        }
+        },
+        "tags": ["Authentication"]
       }
     },
     "/users/signup": {
@@ -114,7 +116,8 @@
               }
             }
           }
-        }
+        },
+        "tags": ["Authentication"]
       }
     },
     "/users/change/email": {
@@ -162,7 +165,8 @@
               }
             }
           }
-        }
+        },
+        "tags": ["Authentication"]
       }
     },
     "/users/change/password": {
@@ -210,7 +214,8 @@
               }
             }
           }
-        }
+        },
+        "tags": ["Authentication"]
       }
     },
     "/users/me": {
