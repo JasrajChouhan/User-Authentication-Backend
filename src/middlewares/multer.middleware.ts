@@ -14,14 +14,14 @@ export const storage = multer.diskStorage({
 
 export const upload = multer({
   storage: storage,
-  fileFilter: (req : Request, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === "image/jpeg") {
+  fileFilter: (req: Request, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
       cb(null, true);
     } else {
-      cb(new ApiError(400 , 'Only .png, .jpg and .jpeg format allowed!'));
+      cb(new ApiError(400, 'Only .png, .jpg and .jpeg format allowed!'));
     }
   },
   limits: {
-    fileSize: 1024 * 1024
+    fileSize: 1024 * 1024,
   },
-})
+});

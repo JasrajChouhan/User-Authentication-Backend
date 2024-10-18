@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs'
+import fs from 'fs';
 
 import { cloudinaryConfig } from '../config/cloudinaryConfig';
 import ApiError from './ApiError';
@@ -22,7 +22,7 @@ export async function uploadOnCloudinary(localFilePath: string) {
     });
     return cloudinaryUploadResult;
   } catch (error: any) {
-    fs.unlinkSync(localFilePath)
+    fs.unlinkSync(localFilePath);
     throw new ApiError(error.statusCode || 500, error.message || 'Error while uploading avatar.');
   }
 }
