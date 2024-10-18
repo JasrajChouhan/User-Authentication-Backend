@@ -122,6 +122,17 @@ This project is a backend system that implements role-based user authentication 
       "username" : "<your_username>"
     }
   ```
+
+### 12. Upload avatar of user
+- **Method**: `Post`
+- **Endpoint**: `api/v1/users/upload/avatar`
+- **only jpg, png is allwoed**
+- **Request Body**: `Mutlipart Form data `
+  ```json
+    {
+      "avatar" : "file"
+    }
+  ```
 ---
 
 ## Setup and Installation
