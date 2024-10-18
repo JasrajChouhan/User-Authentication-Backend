@@ -10,6 +10,9 @@ const serverConfigVariable = {
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
   REFRESH_TOKEN_EXPIREY: process.env.REFRESH_TOKEN_EXPIREY as string,
   NODE_ENV: process.env.NODE_ENV as string,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
 };
 
 export default serverConfigVariable;
