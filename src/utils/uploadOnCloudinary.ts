@@ -1,11 +1,12 @@
 import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs'
 
 import { cloudinaryConfig } from '../config/cloudinaryConfig';
 import ApiError from './ApiError';
 
-export async function uploadOnCloudinary(localFile: string) {
+export async function uploadOnCloudinary(localFilePath: string) {
   try {
-    if (!localFile) {
+    if (!localFilePath) {
       throw new ApiError(401, 'Provide an image/avatar');
     }
 
@@ -16,12 +17,12 @@ export async function uploadOnCloudinary(localFile: string) {
       throw new ApiError(500, 'Cloudinary configuration failed');
     }
 
-    const cloudinaryUploadResult = await cloudinary.uploader.upload(localFile, {
+    const cloudinaryUploadResult = await cloudinary.uploader.upload(localFilePath, {
       public_id: 'avatar',
     });
-    console.log(cloudinaryUploadResult);
     return cloudinaryUploadResult;
-  } catch (error) {
-    throw new ApiError(500, 'Error while uploading avatar.');
+  } catch (error: any) {
+    fs.unlinkSync(localFilePath)
+    throw new ApiError(error.statusCode || 500, error.message || 'Error while uploading avatar.');
   }
 }
