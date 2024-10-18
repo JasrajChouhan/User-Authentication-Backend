@@ -3,18 +3,20 @@ import express from 'express';
 import {
   changeEmail,
   changePassword,
-  loginUser,
-  logoutUser,
-  refreshAccessToken,
-  registerUser,
   deleteUserAccount,
   getCurrentLoggedInUser,
   getUserById,
   googleAuth,
   isUsernameExist,
+  loginUser,
+  logoutUser,
+  refreshAccessToken,
+  registerUser,
+  uploadAvatar,
 } from '../../../controllers/userController';
 
 import verifyJWT from '../../../middlewares/authenticationMiddleware';
+import { upload } from '../../../middlewares/multer.middleware';
 
 const router = express.Router();
 
@@ -29,5 +31,6 @@ router.get('/me', verifyJWT, getCurrentLoggedInUser);
 router.get('/:id', verifyJWT, getUserById);
 router.post('/google', googleAuth);
 router.post('/username/exist', isUsernameExist);
+router.post('/upload/avatar', verifyJWT, upload.single('avatar'), uploadAvatar);
 
 export default router;

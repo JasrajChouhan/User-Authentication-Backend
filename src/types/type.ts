@@ -1,3 +1,4 @@
+import { Request } from 'express';
 import { IUser } from '../models/user.model';
 
 export interface userTypes {
@@ -36,4 +37,8 @@ export interface GoogleOAuthProps {
   username: string;
   email: string;
   avatar: string;
+}
+
+export interface MulterRequest extends Request {
+  file: any;
 }

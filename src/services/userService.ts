@@ -107,6 +107,15 @@ class UserService {
       throw new ApiError(error.statusCode || 500, error.message || 'Error while checking existance of username.');
     }
   }
+
+  //---- upload avatar and save into db
+  async uploadAvatar(localFilePath: string, userId: string) {
+    try {
+      return await this.userRepository.uploadAvatar(localFilePath, userId);
+    } catch (error: any) {
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while uploading avatar.');
+    }
+  }
 }
 
 export default UserService;

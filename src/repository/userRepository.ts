@@ -8,6 +8,7 @@ import ApiError from '../utils/ApiError';
 
 import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
 import generateValidUsername from '../utils/generateValidUsername';
+import { uploadOnCloudinary } from '../utils/uploadOnCloudinary';
 
 const SALT_WORK_FACTOR = Number(serverConfigVariable.SALT_WORK_FACTOR || 10);
 
@@ -395,6 +396,32 @@ class UserRepository {
     } catch (error: any) {
       console.log(error);
       throw new ApiError(error.statusCode || 500, error.message || 'Error while checking existance of username.');
+    }
+  }
+
+  // upload avatar on cloudinary
+
+  async uploadAvatar(localFilePath: string, userId: string) {
+    try {
+      if (!localFilePath) {
+        throw new ApiError(500, 'Localfile path is not available.');
+      }
+
+      // then upload on cloudinary
+      const uploadCloudinaryResult = await uploadOnCloudinary(localFilePath);
+      console.log(uploadCloudinaryResult.url);
+      const { url: avatarImageUrl } = uploadCloudinaryResult;
+      if (!avatarImageUrl) {
+        throw new ApiError(500, 'Image url not found. Try again letter.');
+      }
+
+      // then save the image url in db
+      await User.findByIdAndUpdate(userId, {
+        avatar: avatarImageUrl,
+      }).select('-password -refreshToken');
+    } catch (error: any) {
+      console.log(error);
+      throw new ApiError(error.statusCode || 500, error.message || 'Error while upload avatar');
     }
   }
 }

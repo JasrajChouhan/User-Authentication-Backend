@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import serverConfigVariable from '../config/serverConfig';
 import UserService from '../services/userService';
-import { LoginResponse } from '../types/type';
+import { LoginResponse, MulterRequest } from '../types/type';
 import ApiError from '../utils/ApiError';
 import ApiResponse from '../utils/ApiResponse';
 import sendToken from '../utils/SendToken';
@@ -227,6 +227,22 @@ async function isUsernameExist(req: Request, res: Response, next: NextFunction) 
       );
   }
 }
+
+//---- upload avatar and save into db
+async function uploadAvatar(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userId = req?.user?._id as string;
+    const localFilePath = (req as MulterRequest).file?.path as string;
+    await userService.uploadAvatar(localFilePath, userId);
+
+    // send the response
+    res.status(200).json(new ApiResponse(200, {}, 'Successfully upload or update avatar.'));
+  } catch (error: any) {
+    res
+      .status(error.statusCode || 500)
+      .json(new ApiResponse(error.statusCode || 500, {}, error.message || 'Error while upload avatar.'));
+  }
+}
 export {
   changeEmail,
   changePassword,
@@ -239,4 +255,5 @@ export {
   refreshAccessToken,
   registerUser,
   isUsernameExist,
+  uploadAvatar,
 };
