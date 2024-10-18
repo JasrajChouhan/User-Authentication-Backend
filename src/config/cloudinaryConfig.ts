@@ -6,8 +6,8 @@ export async function cloudinaryConfig() {
   try {
     cloudinary.config({
       cloud_name: String(serverConfigVariable.CLOUDINARY_CLOUD_NAME),
-      api_key: String(serverConfigVariable.CLOUDINARY_API_SECRET),
-      api_secret: String(serverConfigVariable.CLOUDINARY_API_KEY),
+      api_key: String(serverConfigVariable.CLOUDINARY_API_KEY),
+      api_secret: String(serverConfigVariable.CLOUDINARY_API_SECRET),
     });
   } catch (error: any) {
     console.log('Cloudinary config connection error:', error.message);
