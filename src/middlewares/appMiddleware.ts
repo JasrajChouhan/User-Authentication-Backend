@@ -3,10 +3,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
-import morgan from 'morgan';
 
+import { morganMiddleware } from './logger.middleware';
 import rateLimiterMiddleware from './rateLimitterMiddleware';
-import errorHandler from './errorHandler';
 
 function applyMiddlewares(app: any) {
   // ------Body parsers
@@ -28,7 +27,7 @@ function applyMiddlewares(app: any) {
   app.use(compression());
 
   // -------Logging
-  app.use(morgan('dev'));
+  app.use(morganMiddleware());
 
   // -------Cookies management
   app.use(cookieParser());

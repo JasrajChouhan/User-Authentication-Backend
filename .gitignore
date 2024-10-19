@@ -5,3 +5,7 @@ node_modules/
 src/config.json
 .env
 *.env
+
+app.log
+app-error.log
+logs/
