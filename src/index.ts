@@ -5,7 +5,7 @@ import serverConfigVariable from './config/serverConfig';
 import dbConnection from './db/dbConnection';
 import applyMiddlewares from './middlewares/appMiddleware';
 import errorHandler from './middlewares/errorHandler';
-import userApiRoutes from './routes/v1/userRoutes/ApiVersionRoutes';
+import apiRoute from './routes/v1/ApiVersionRoutes';
 
 import { IUser } from './models/user.model';
 
@@ -31,7 +31,7 @@ applyMiddlewares(app);
 //-----db connection
 dbConnection();
 
-app.use('/api', userApiRoutes);
+app.use('/api', apiRoute);
 
 //-----Not found page route
 app.use('*', (req: Request, res: Response) => {
