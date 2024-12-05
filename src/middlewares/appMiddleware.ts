@@ -22,7 +22,12 @@ function applyMiddlewares(app: any) {
   );
 
   // -------Security and performance middlewares
-  app.use(cors());
+  app.use(
+    cors({
+      origin: ['http://localhost:5173'],
+      credentials: true,
+    })
+  );
   app.use(helmet());
   app.use(compression());
 
