@@ -9,3 +9,7 @@ src/config.json
 app.log
 app-error.log
 logs/
+
+## user project dir
+
+project/
