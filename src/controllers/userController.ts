@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 import serverConfigVariable from '../config/serverConfig';
-import UserService from '../services/userService';
+import UserService from '../services/user.service';
 import { LoginResponse, MulterRequest } from '../types/type';
 import ApiError from '../utils/ApiError';
 import ApiResponse from '../utils/ApiResponse';
