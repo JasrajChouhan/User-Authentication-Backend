@@ -35,7 +35,7 @@ app.use('/api', apiRoute);
 
 //-----Not found page route
 app.use('*', (req: Request, res: Response) => {
-  res.send('<h1>Page 404, Not found');
+  res.send('<h1>Page 404, Not found</h1>');
 });
 
 //------Global error handler
