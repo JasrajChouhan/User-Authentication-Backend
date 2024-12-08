@@ -42,3 +42,9 @@ export interface GoogleOAuthProps {
 export interface MulterRequest extends Request {
   file: any;
 }
+
+export interface createProjectProps {
+  projectName: string;
+  projectTechStack: string;
+  description?: string;
+}
