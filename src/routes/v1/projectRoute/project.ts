@@ -5,6 +5,6 @@ import allProjectRoutes from './project.route';
 
 const router: Router = Router();
 
-router.use('/projects', verifyJWT, allProjectRoutes);
+router.use('/projects', allProjectRoutes);
 
 export default router;
