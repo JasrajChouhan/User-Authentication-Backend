@@ -1,8 +1,9 @@
 import bcrypt, { genSalt } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 import serverConfigVariable from '../config/serverConfig';
+import { IProject } from './project.model';
 
 const SALT_WORK_FACTOR = Number(serverConfigVariable.SALT_WORK_FACTOR || 10);
 
@@ -16,6 +17,7 @@ export interface IUser extends mongoose.Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
   generateAccessToken: () => Promise<string>;
   generateRefreshToken: () => Promise<string>;
+  projects: mongoose.Types.ObjectId[];
 }
 
 const UserSchema = new mongoose.Schema<IUser>(
@@ -64,6 +66,12 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       default: '', // todo : add a default string
     },
+    projects: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Project',
+      },
+    ],
   },
   { timestamps: true }
 );
