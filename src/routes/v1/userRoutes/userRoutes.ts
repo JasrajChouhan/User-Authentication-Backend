@@ -13,7 +13,7 @@ import {
   refreshAccessToken,
   registerUser,
   uploadAvatar,
-} from '../../../controllers/userController';
+} from '../../../controllers/user.controller';
 
 import verifyJWT from '../../../middlewares/authenticationMiddleware';
 import { upload } from '../../../middlewares/multer.middleware';
