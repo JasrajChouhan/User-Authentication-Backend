@@ -1,4 +1,4 @@
-import UserRepository from '../repository/userRepository';
+import UserRepository from '../repository/user.repository';
 import { changeEmailTypes, changePasswordTypes, GoogleOAuthProps, userTypes } from '../types/type';
 import ApiError from '../utils/ApiError';
 
