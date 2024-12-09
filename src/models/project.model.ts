@@ -24,6 +24,7 @@ const ProjectSchema = new Schema<IProject>(
       type: String,
       enum: ['reactjs', 'nodejs', 'rust', 'reactts'],
       required: [true, 'Please specify the tech stack for the project.'],
+      lowercase : true
     },
     author: {
       type: Schema.Types.ObjectId,
