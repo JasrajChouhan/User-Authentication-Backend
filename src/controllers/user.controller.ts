@@ -233,10 +233,18 @@ async function uploadAvatar(req: Request, res: Response, next: NextFunction) {
   try {
     const userId = req?.user?._id as string;
     const localFilePath = (req as MulterRequest).file?.path as string;
-    await userService.uploadAvatar(localFilePath, userId);
+    const avatarImageUrl = await userService.uploadAvatar(localFilePath, userId);
 
     // send the response
-    res.status(200).json(new ApiResponse(200, {}, 'Successfully upload or update avatar.'));
+    res.status(200).json(
+      new ApiResponse(
+        200,
+        {
+          avatar: avatarImageUrl,
+        },
+        'Successfully upload or update avatar.'
+      )
+    );
   } catch (error: any) {
     res
       .status(error.statusCode || 500)

@@ -419,6 +419,7 @@ class UserRepository {
       await User.findByIdAndUpdate(userId, {
         avatar: avatarImageUrl,
       }).select('-password -refreshToken');
+      return avatarImageUrl;
     } catch (error: any) {
       console.log(error);
       throw new ApiError(error.statusCode || 500, error.message || 'Error while upload avatar');
