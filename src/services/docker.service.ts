@@ -83,7 +83,7 @@ CMD ["node", "index.js"]
       return `
         FROM node:14
         WORKDIR /usr/src/app
-        RUN npx create-react-app .
+        RUN npm create vite@latest .
         EXPOSE 3000
         CMD ["npm", "start"]
         `;
